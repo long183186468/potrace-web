@@ -24,15 +24,13 @@ wheels/
 venv/
 ENV/
 env/
+.env
 
 # IDE
 .idea/
 .vscode/
 *.swp
 *.swo
-
-# Environment variables
-.env
 
 # Logs
 *.log
@@ -43,4 +41,20 @@ instance/
 
 # System Files
 .DS_Store
-Thumbs.db 
+Thumbs.db
+
+# Project specific
+uploads/
+temp/
+*.pyc
+.env.local
+.env.*.local
+
+# Editor directories and files
+.idea
+.vscode
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw? 
