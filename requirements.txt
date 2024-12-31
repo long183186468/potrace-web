@@ -1,0 +1,5 @@
+Flask==3.0.0
+Pillow==10.1.0
+Werkzeug==3.0.1
+python-magic==0.4.27
+gunicorn==21.2.0 
