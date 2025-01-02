@@ -9,6 +9,7 @@ const CONFIG = {
 // 状态管理
 const state = {
     currentFile: null,
+    originalFileName: null,
     previewDebounceTimer: null,
     transform: {
         scale: 1,
@@ -125,6 +126,7 @@ function handleFileSelect(file) {
     if (!file) return;
     
     state.currentFile = file;
+    state.originalFileName = file.name;
     const reader = new FileReader();
     
     reader.onload = function(e) {
@@ -317,7 +319,10 @@ function initFormSubmit() {
             const url = window.URL.createObjectURL(blob);
             const a = document.createElement('a');
             a.href = url;
-            a.download = `converted.${document.querySelector('input[name="output_format"]:checked').value}`;
+            const originalName = state.originalFileName || 'converted';
+            const baseName = originalName.substring(0, originalName.lastIndexOf('.')) || originalName;
+            const newExt = document.querySelector('input[name="output_format"]:checked').value;
+            a.download = `${baseName}.${newExt}`;
             document.body.appendChild(a);
             a.click();
             window.URL.revokeObjectURL(url);

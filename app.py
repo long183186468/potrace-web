@@ -163,6 +163,11 @@ def upload_file():
                 if output_format not in OUTPUT_FORMATS:
                     return 'Invalid output format'
                 
+                # 处理文件名
+                original_filename = file.filename
+                base_filename = os.path.splitext(original_filename)[0]
+                output_ext = OUTPUT_FORMATS[output_format]['ext']
+                
                 # 创建临时文件
                 temp_img = tempfile.NamedTemporaryFile(suffix='.pnm', delete=False)
                 
@@ -196,7 +201,6 @@ def upload_file():
                 img.save(temp_img.name)
                 
                 # 创建输出文件
-                output_ext = OUTPUT_FORMATS[output_format]['ext']
                 output_file = os.path.join(UPLOAD_FOLDER, f'output.{output_ext}')
                 
                 # 构建potrace命令
@@ -268,12 +272,12 @@ def upload_file():
                 return send_file(
                     BytesIO(file_content),
                     as_attachment=True,
-                    download_name=f'converted.{output_ext}',
+                    download_name=f'{base_filename}.{output_ext}',
                     mimetype='application/octet-stream'
                 )
                 
             except Exception as e:
-                print(f"Debug - Error during conversion: {str(e)}")  # 添加调试输出
+                print(f"Debug - Error during conversion: {str(e)}")
                 return f'Error during conversion: {str(e)}'
             
             finally:
